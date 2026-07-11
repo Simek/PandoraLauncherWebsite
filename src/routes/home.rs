@@ -80,6 +80,13 @@ fn youtube_icon() -> Html {
     }
 }
 
+#[function_component(DiscordIcon)]
+fn discord_icon() -> Html {
+    html! {
+        <img src="/discord.svg" width="32"/>
+    }
+}
+
 #[function_component(Home)]
 pub fn home() -> Html {
     let releases = use_async_with_options(
@@ -148,12 +155,15 @@ pub fn home() -> Html {
                     <ybc::Subtitle size={ybc::HeaderSize::Is3}>
                         {"Pandora is a modern Minecraft launcher that balances ease-of-use with powerful instance management features "}
                     </ybc::Subtitle>
-                    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: center; height: 32px; gap: 20px; margin-top: 20px; margin-bottom: 20px;">
                         <a href="https://github.com/Moulberry/PandoraLauncher" target="_blank" rel="noopener noreferrer" class="social-icon">
                             <GitHubIcon />
                         </a>
                         <a href="https://www.youtube.com/@TheKidReturnsGaming" target="_blank" rel="noopener noreferrer" class="social-icon">
                             <YouTubeIcon />
+                        </a>
+                        <a href="/discord" target="_blank" rel="noopener noreferrer" class="social-icon" style="display: flex; flex-direction: column; justify-content: center;">
+                            <DiscordIcon />
                         </a>
                     </div>
                 </ybc::Container>
