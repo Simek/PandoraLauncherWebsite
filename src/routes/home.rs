@@ -1,7 +1,7 @@
 use std::{collections::HashMap, sync::Arc};
 
 use serde::Deserialize;
-use ybc::{TileCtx::{Ancestor, Child, Parent}};
+use ybc::TileCtx::{Ancestor, Child, Parent};
 use yew::prelude::*;
 use yew_hooks::{use_async_with_options, UseAsyncOptions};
 
@@ -91,10 +91,13 @@ fn discord_icon() -> Html {
 pub fn home() -> Html {
     let releases = use_async_with_options(
         async {
-            let releases: Option<GitHubReleases> = crate::services::request::get("https://api.github.com/repos/Moulberry/PandoraLauncher/releases/latest").await;
+            let releases: Option<GitHubReleases> = crate::services::request::get(
+                "https://api.github.com/repos/Moulberry/PandoraLauncher/releases/latest",
+            )
+            .await;
             releases.ok_or(())
         },
-        UseAsyncOptions::enable_auto()
+        UseAsyncOptions::enable_auto(),
     );
 
     let mut releases_by_type = HashMap::new();
@@ -125,19 +128,20 @@ pub fn home() -> Html {
         }
     }
 
-    let operating_system = if let Ok(user_agent) = web_sys::window().unwrap().navigator().user_agent() {
-        if user_agent.contains("Mac") {
-            OperatingSystem::MacOS
-        } else if user_agent.contains("Win") {
-            OperatingSystem::Windows
-        } else if user_agent.contains("Linux") {
-            OperatingSystem::Linux
+    let operating_system =
+        if let Ok(user_agent) = web_sys::window().unwrap().navigator().user_agent() {
+            if user_agent.contains("Mac") {
+                OperatingSystem::MacOS
+            } else if user_agent.contains("Win") {
+                OperatingSystem::Windows
+            } else if user_agent.contains("Linux") {
+                OperatingSystem::Linux
+            } else {
+                OperatingSystem::Unknown
+            }
         } else {
             OperatingSystem::Unknown
-        }
-    } else {
-        OperatingSystem::Unknown
-    };
+        };
 
     html! {
         <>
@@ -155,14 +159,14 @@ pub fn home() -> Html {
                     <ybc::Subtitle size={ybc::HeaderSize::Is3}>
                         {"Pandora is a modern Minecraft launcher that balances ease-of-use with powerful instance management features "}
                     </ybc::Subtitle>
-                    <div style="display: flex; justify-content: center; height: 32px; gap: 20px; margin-top: 20px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-block: 20px;">
                         <a href="https://github.com/Moulberry/PandoraLauncher" target="_blank" rel="noopener noreferrer" class="social-icon">
                             <GitHubIcon />
                         </a>
                         <a href="https://www.youtube.com/@TheKidReturnsGaming" target="_blank" rel="noopener noreferrer" class="social-icon">
                             <YouTubeIcon />
                         </a>
-                        <a href="/discord" target="_blank" rel="noopener noreferrer" class="social-icon" style="display: flex; flex-direction: column; justify-content: center;">
+                        <a href="/discord" target="_blank" rel="noopener noreferrer" class="social-icon">
                             <DiscordIcon />
                         </a>
                     </div>
